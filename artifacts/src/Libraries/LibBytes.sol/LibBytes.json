@@ -1,0 +1,31 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "LibBytes",
+  "sourceName": "src/Libraries/LibBytes.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "AddressOutOfBounds",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "SliceOutOfBounds",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "SliceOverflow",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "UintOutOfBounds",
+      "type": "error"
+    }
+  ],
+  "bytecode": "0x60566050600b82828239805160001a6073146043577f4e487b7100000000000000000000000000000000000000000000000000000000600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220571cdef267e5d1a56e4cc371d719e3e43a67e98e3cc0801a23637c4cb5bc096c64736f6c63430008110033",
+  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220571cdef267e5d1a56e4cc371d719e3e43a67e98e3cc0801a23637c4cb5bc096c64736f6c63430008110033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

@@ -1,0 +1,113 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "SwapperV2",
+  "sourceName": "src/Helpers/SwapperV2.sol",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "transactionId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "receivingAssetId",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "receiver",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "KanaTransferCompleted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "bytes32",
+              "name": "transactionId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "string",
+              "name": "bridge",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "integrator",
+              "type": "string"
+            },
+            {
+              "internalType": "address",
+              "name": "referrer",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "sendingAssetId",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "receiver",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "minAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "destinationChainId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "hasSourceSwaps",
+              "type": "bool"
+            },
+            {
+              "internalType": "bool",
+              "name": "hasDestinationCall",
+              "type": "bool"
+            }
+          ],
+          "indexed": false,
+          "internalType": "struct IKana.BridgeData",
+          "name": "bridgeData",
+          "type": "tuple"
+        }
+      ],
+      "name": "KanaTransferStarted",
+      "type": "event"
+    }
+  ],
+  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220e316d82dc0b1749ef7bdb7802f9110b809b5c3c27c8af6fa973d2a3cf27daf9c64736f6c63430008110033",
+  "deployedBytecode": "0x6080604052600080fdfea2646970667358221220e316d82dc0b1749ef7bdb7802f9110b809b5c3c27c8af6fa973d2a3cf27daf9c64736f6c63430008110033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
