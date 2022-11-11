@@ -14,7 +14,7 @@ const mora_address = "0x6Ab1F83c0429A1322D7ECDFdDf54CE6D179d911f"
 
 const rpcUrl = 'https://proxy.devnet.neonlabs.org/solana';
 
-const provider = new ethers.providers.JsonRpcProvider(rpcUrl); //1000000000
+const provider = new ethers.providers.JsonRpcProvider(rpcUrl); 
 
 const amountIn = utils.parseUnits("1", 6);
 const amountOut = utils.parseUnits("1", 6);
