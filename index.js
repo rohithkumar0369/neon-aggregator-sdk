@@ -4,22 +4,26 @@ const genericSwapFacet = require("./artifacts/src/Facets/GenericSwapFacet.sol/Ge
 const IERC20 = require("./artifacts/@openzeppelin/contracts/token/ERC20/IERC20.sol/IERC20.json");
 require("dotenv").config();
 
-const kanaDiamondAddress = "0xb0858a688f4C370B33cFd91310DD1ba2ec4b5849";
+const kanaDiamondAddress = "0x46699e45B05952447210032a8C20CcdcAf751Ee2";
 const moraswapAddress = "0x696d73D7262223724d60B2ce9d6e20fc31DfC56B";
 const wneon_address = "0xf1041596da0499c3438e3B1Eb7b95354C6Aed1f5";
 const mUSDC_ADDRESS = "0x7ff459CE3092e8A866aA06DA88D291E2E31230C1";
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
-const mora_address = "0x6Ab1F83c0429A1322D7ECDFdDf54CE6D179d911f"
+const mora_address = "0x6Ab1F83c0429A1322D7ECDFdDf54CE6D179d911f";
 //const rpcUrl = "https://devnet.neonevm.org";
 
-const rpcUrl = 'https://proxy.devnet.neonlabs.org/solana';
+const rpcUrl = "https://proxy.devnet.neonlabs.org/solana";
 
-const provider = new ethers.providers.JsonRpcProvider(rpcUrl); 
+const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
 
-const amountIn = utils.parseUnits("1", 6);
-const amountOut = utils.parseUnits("1", 6);
+const amountIn = utils.parseUnits("9", 6);
+const amountOut = utils.parseUnits("10", 6);
 
 const deadline = Math.floor(Date.now() / 1000) + 60 * 20; // 20 minutes from the current Unix time
+
+let nonce;
+let gasLimit;
+let gasPrice;
 
 const initAccount = (privateKey) => {
   const wallet = new ethers.Wallet(privateKey, provider);
@@ -80,7 +84,6 @@ const start = async () => {
     provider
   );
 
-
   const signer = getSignerFromAddress(userWallet.address);
 
   const moraswapfunc = [
@@ -89,23 +92,27 @@ const start = async () => {
 
   const moraswap = initContract(moraswapAddress, moraswapfunc, undefined);
 
-   const swapData = await getSwapDate(moraswap);
-
-   console.log("amount in ",amountIn.toString(), "amount out",amountOut.toString())
-   console.log("swap data",swapData)
+  const swapData = await getSwapDate(moraswap);
 
   const mora_token = initContract(mora_address, IERC20.abi, provider);
 
   let preTokenA_Balance = await mora_token.balanceOf(userWallet.address);
 
-  console.log("prebalance for token A",preTokenA_Balance.toString());
+  console.log("prebalance for token A", preTokenA_Balance.toString())
+
+  let gasPrice = await provider.getGasPrice();
 
   let nonce = await provider.getTransactionCount(userWallet.address);
+
+  // let estimateGas = await mora_token.estimateGas.approve(
+  //   genericSwap.address,
+  //   amountIn,
+  // )
 
   let unsignedTx = await mora_token.populateTransaction.approve(
     genericSwap.address,
     amountIn,
-    { nonce: nonce, gasLimit: 2000000, gasPrice: 138699406200 }
+    { nonce: nonce, gasLimit:200000, gasPrice: gasPrice }
   );
 
   let receipt = await signAndSendTX(userWallet, unsignedTx, provider);
@@ -118,11 +125,45 @@ const start = async () => {
 
   console.log("prebalance for token B",preTokenB_Balance.toString());
 
-  console.log(typeof(swapData.data))
+
 
   try {
 
     nonce = await provider.getTransactionCount(userWallet.address);
+
+    //  gasLimit = await genericSwap.estimateGas.swapTokensGeneric(
+    //   utils.randomBytes(32),
+    //   "Moraswap",
+    //   ZERO_ADDRESS,
+    //   userWallet.address,
+    //   utils.parseUnits("1", 6),
+    //   [
+    //     {
+    //       callTo: String(swapData.to),
+    //       approveTo: String(swapData.to),
+    //       sendingAssetId: mora_address,
+    //       receivingAssetId: wneon_address,
+    //       callData: String(swapData?.data),
+    //       fromAmount: amountIn,
+    //       requiresDeposit: true,
+    //     },
+    //   ],
+    //  )
+
+    let swapData_to = swapData.to
+    let swapData_Data = swapData.data
+    console.log(swapData)
+    console.log(utils.randomBytes(32))
+    console.log(utils.parseUnits("3", 6))
+    console.log({
+      callTo: String(swapData.to),
+      approveTo: String(swapData.to),
+      sendingAssetId: mora_address,
+      receivingAssetId: wneon_address,
+      callData: String(swapData?.data),
+      fromAmount: amountIn,
+      requiresDeposit: true,
+    },)
 
     let unsignedSwapData = await genericSwap.populateTransaction.swapTokensGeneric(
       utils.randomBytes(32),
@@ -142,9 +183,9 @@ const start = async () => {
         },
       ],
       {
-    //     gasLimit: 2000000,
+        gasLimit: 3450060,
         nonce: nonce,
-         gasPrice: 138699406200,
+         gasPrice: gasPrice,
        }
     );
 
@@ -156,6 +197,7 @@ const start = async () => {
   } catch (err) {
     console.log(err);
   }
+
 };
 
 start();
